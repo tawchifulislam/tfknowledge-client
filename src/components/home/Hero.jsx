@@ -6,7 +6,7 @@ import discussionAnimation from '@/assets/animations/tfk_discussion.json';
 
 export default function Hero() {
   return (
-    <section className="grid items-center gap-10 py-16 sm:py-20 lg:grid-cols-2 lg:py-28">
+    <section className="grid items-center gap-10 py-10 sm:py-12 lg:grid-cols-2 lg:py-14">
       <div className="text-center lg:text-left">
         <h1 className="mx-auto max-w-xl font-serif text-4xl font-semibold leading-tight tracking-tight text-text sm:text-5xl lg:mx-0">
           A quiet corner for curious minds

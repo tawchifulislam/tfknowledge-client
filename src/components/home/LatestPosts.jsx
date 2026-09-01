@@ -1,35 +1,19 @@
 import Link from 'next/link';
+import { getAllPosts } from '@/lib/api';
 
-const placeholderPosts = [
-  {
-    slug: 'why-curiosity-compounds',
-    title: 'Why curiosity compounds like interest',
-    excerpt:
-      'Small habits of asking questions build up over years into something far bigger than any single insight.',
-    date: 'Aug 2026',
-  },
-  {
-    slug: 'the-art-of-slow-reading',
-    title: 'The art of slow reading',
-    excerpt:
-      'In a world of skimming, reading deliberately is becoming a quiet act of resistance.',
-    date: 'Aug 2026',
-  },
-  {
-    slug: 'learning-in-public',
-    title: 'Learning in public, one post at a time',
-    excerpt:
-      'Sharing half-formed ideas is uncomfortable, but it is often the fastest way to refine them.',
-    date: 'Jul 2026',
-  },
-];
+export default async function LatestPosts() {
+  const posts = await getAllPosts();
+  const latestThree = posts.slice(0, 3);
 
-export default function LatestPosts() {
+  if (latestThree.length === 0) {
+    return null;
+  }
+
   return (
-    <section className="py-16">
+    <section className="pb-16 pt-4">
       <div className="mb-8 flex items-center justify-between">
         <h2 className="font-serif text-2xl font-semibold text-text">
-          Latest Posts
+          Latest posts
         </h2>
         <Link href="/posts" className="text-sm text-text-muted hover:text-text">
           View all
@@ -37,13 +21,18 @@ export default function LatestPosts() {
       </div>
 
       <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-        {placeholderPosts.map(post => (
+        {latestThree.map(post => (
           <Link
             key={post.slug}
             href={`/posts/${post.slug}`}
             className="group flex flex-col gap-2"
           >
-            <span className="text-xs text-text-muted">{post.date}</span>
+            <span className="text-xs text-text-muted">
+              {new Date(post.publishedAt).toLocaleDateString('en-US', {
+                month: 'short',
+                year: 'numeric',
+              })}
+            </span>
             <h3 className="font-serif text-lg font-semibold text-text group-hover:text-accent">
               {post.title}
             </h3>

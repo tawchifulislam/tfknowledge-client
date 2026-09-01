@@ -15,3 +15,27 @@ export const createPost = async postData => {
 
   return res.json();
 };
+
+export const getAllPosts = async () => {
+  const res = await fetch(`${SERVER_URL}/api/posts`, {
+    cache: 'no-store',
+  });
+
+  if (!res.ok) {
+    throw new Error('Failed to fetch posts');
+  }
+
+  return res.json();
+};
+
+export const getPostBySlug = async slug => {
+  const res = await fetch(`${SERVER_URL}/api/posts/${slug}`, {
+    cache: 'no-store',
+  });
+
+  if (!res.ok) {
+    return null;
+  }
+
+  return res.json();
+};
