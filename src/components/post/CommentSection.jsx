@@ -27,7 +27,7 @@ export default function CommentSection({ postId }) {
       setComments(prev => [...prev, created]);
       setNewComment('');
     } catch (err) {
-      alert('Failed to post comment.');
+      alert(err.message || 'Failed to post comment.');
     } finally {
       setPosting(false);
     }

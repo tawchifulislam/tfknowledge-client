@@ -11,7 +11,7 @@ export default function CommentItem({ comment, replies, onReply, onDeleted }) {
   const [replyText, setReplyText] = useState('');
   const [deleting, setDeleting] = useState(false);
 
-  const isOwner = session?.user?.id === comment.authorId?._id;
+  const isOwner = session?.user?.id === comment.authorId;
   const isAdmin = session?.user?.role === 'admin';
   const canDelete = isOwner || isAdmin;
 
@@ -40,7 +40,7 @@ export default function CommentItem({ comment, replies, onReply, onDeleted }) {
       <div className="flex items-start justify-between">
         <div>
           <p className="text-sm font-medium text-text">
-            {comment.authorId?.name || 'Unknown'}
+            {comment.authorName || 'Unknown'}
           </p>
           <p className="mt-1 text-sm text-text-muted">
             {comment.isDeleted ? (
@@ -91,24 +91,27 @@ export default function CommentItem({ comment, replies, onReply, onDeleted }) {
 
       {replies.length > 0 && (
         <div className="ml-6 mt-3 space-y-3 border-l border-border pl-4">
-          {replies.map(reply => (
-            <div key={reply._id} className="flex items-start justify-between">
-              <div>
-                <p className="text-sm font-medium text-text">
-                  {reply.authorId?.name || 'Unknown'}
-                </p>
-                <p className="mt-1 text-sm text-text-muted">
-                  {reply.isDeleted ? (
-                    <span className="italic">This comment was deleted.</span>
-                  ) : (
-                    reply.content
-                  )}
-                </p>
-              </div>
+          {replies.map(reply => {
+            const canDeleteReply =
+              session?.user?.id === reply.authorId ||
+              session?.user?.role === 'admin';
 
-              {!reply.isDeleted &&
-                (session?.user?.id === reply.authorId?._id ||
-                  session?.user?.role === 'admin') && (
+            return (
+              <div key={reply._id} className="flex items-start justify-between">
+                <div>
+                  <p className="text-sm font-medium text-text">
+                    {reply.authorName || 'Unknown'}
+                  </p>
+                  <p className="mt-1 text-sm text-text-muted">
+                    {reply.isDeleted ? (
+                      <span className="italic">This comment was deleted.</span>
+                    ) : (
+                      reply.content
+                    )}
+                  </p>
+                </div>
+
+                {!reply.isDeleted && canDeleteReply && (
                   <button
                     onClick={() => handleDelete(reply._id)}
                     className="text-text-muted hover:text-destructive"
@@ -116,8 +119,9 @@ export default function CommentItem({ comment, replies, onReply, onDeleted }) {
                     <Trash2 size={14} />
                   </button>
                 )}
-            </div>
-          ))}
+              </div>
+            );
+          })}
         </div>
       )}
     </div>

@@ -39,6 +39,7 @@ export const getPostBySlug = async slug => {
 
   return res.json();
 };
+
 export const toggleReaction = async (postId, type) => {
   const res = await fetch(`${SERVER_URL}/api/reactions`, {
     method: 'POST',
@@ -88,7 +89,8 @@ export const createComment = async (postId, content, parentCommentId) => {
   });
 
   if (!res.ok) {
-    throw new Error('Failed to post comment');
+    const error = await res.json();
+    throw new Error(error.message || 'Failed to post comment');
   }
 
   return res.json();
