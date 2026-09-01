@@ -17,10 +17,10 @@ export default function Hero() {
         </p>
         <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row lg:justify-start">
           <Link
-            href="/feed"
+            href="/posts"
             className="rounded-full bg-text px-6 py-2.5 text-sm font-medium text-bg hover:bg-accent"
           >
-            Explore the feed
+            Explore the posts
           </Link>
           <Link
             href="/requests"

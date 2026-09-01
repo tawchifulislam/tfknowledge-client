@@ -29,9 +29,9 @@ export default function LatestPosts() {
     <section className="py-16">
       <div className="mb-8 flex items-center justify-between">
         <h2 className="font-serif text-2xl font-semibold text-text">
-          Latest posts
+          Latest Posts
         </h2>
-        <Link href="/feed" className="text-sm text-text-muted hover:text-text">
+        <Link href="/posts" className="text-sm text-text-muted hover:text-text">
           View all
         </Link>
       </div>
@@ -40,7 +40,7 @@ export default function LatestPosts() {
         {placeholderPosts.map(post => (
           <Link
             key={post.slug}
-            href={`/feed/${post.slug}`}
+            href={`/posts/${post.slug}`}
             className="group flex flex-col gap-2"
           >
             <span className="text-xs text-text-muted">{post.date}</span>

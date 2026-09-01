@@ -11,7 +11,7 @@ import ProfileMenu from './ProfileMenu';
 
 const navLinks = [
   { href: '/', label: 'Home' },
-  { href: '/feed', label: 'Feed' },
+  { href: '/posts', label: 'Posts' },
   { href: '/requests', label: 'Requests' },
 ];
 
