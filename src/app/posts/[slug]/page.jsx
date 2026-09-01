@@ -2,6 +2,8 @@ import { notFound } from 'next/navigation';
 import Container from '@/components/layout/Container';
 import { getPostBySlug } from '@/lib/api';
 import { Image } from 'next/image';
+import ReactionBar from '@/components/post/ReactionBar';
+import CommentSection from '@/components/post/CommentSection';
 
 export default async function SinglePostPage({ params }) {
   const { slug } = await params;
@@ -50,6 +52,9 @@ export default async function SinglePostPage({ params }) {
         className="prose prose-neutral mt-8 max-w-none font-sans text-base leading-relaxed text-text"
         dangerouslySetInnerHTML={{ __html: post.content }}
       />
+      <ReactionBar postId={post._id} />
+
+      <CommentSection postId={post._id} />
     </Container>
   );
 }
