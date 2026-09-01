@@ -20,7 +20,7 @@ export default function Hero() {
             href="/posts"
             className="rounded-full bg-text px-6 py-2.5 text-sm font-medium text-bg hover:bg-accent"
           >
-            Explore the posts
+            Explore posts
           </Link>
           <Link
             href="/requests"
