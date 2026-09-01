@@ -10,13 +10,14 @@ export default function Logo({ showText = true }) {
         width={28}
         height={28}
         priority
+        className="h-6 w-6 sm:h-7 sm:w-7"
       />
       {showText && (
         <span className="font-serif leading-none text-text">
-          <span className="block text-xs font-medium tracking-wide text-text/70">
+          <span className="hidden text-xs font-medium tracking-wide text-text/70 sm:block">
             Thirsty For
           </span>
-          <span className="mt-0.5 block text-sm font-semibold tracking-tight">
+          <span className="block text-sm font-semibold tracking-tight">
             Knowledge
           </span>
         </span>
