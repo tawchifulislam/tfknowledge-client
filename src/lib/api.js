@@ -199,3 +199,15 @@ export const updateTopicStatus = async (topicRequestId, status) => {
 
   return res.json();
 };
+export const getMyTopicRequests = async () => {
+  const res = await fetch(`${SERVER_URL}/api/topic-requests/mine`, {
+    credentials: 'include',
+    cache: 'no-store',
+  });
+
+  if (!res.ok) {
+    throw new Error('Failed to fetch your requests');
+  }
+
+  return res.json();
+};

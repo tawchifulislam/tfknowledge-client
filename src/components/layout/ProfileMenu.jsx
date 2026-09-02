@@ -22,6 +22,14 @@ export default function ProfileMenu() {
         <User size={16} className="text-text" />
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" sideOffset={8} className="w-36 p-1">
+        <DropdownMenuItem
+          onClick={() => router.push('/profile')}
+          className="flex items-center gap-2 py-1.5 text-sm focus:bg-gray-100 focus:text-text"
+        >
+          <User size={14} />
+          Profile
+        </DropdownMenuItem>
+        <DropdownMenuSeparator />
         {isAdmin && (
           <DropdownMenuItem
             onClick={() => router.push('/admin/write')}
