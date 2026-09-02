@@ -22,7 +22,7 @@ export default function CommentItem({ comment, replies, onReply, onDeleted }) {
       await deleteComment(id);
       onDeleted(id);
     } catch (err) {
-      alert('Failed to delete comment.');
+      alert(err.message);
     } finally {
       setDeleting(false);
     }

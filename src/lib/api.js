@@ -103,7 +103,8 @@ export const deleteComment = async commentId => {
   });
 
   if (!res.ok) {
-    throw new Error('Failed to delete comment');
+    const error = await res.json().catch(() => ({}));
+    throw new Error(error.message || `Failed with status ${res.status}`);
   }
 
   return res.json();
