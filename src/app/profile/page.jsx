@@ -21,33 +21,21 @@ const STATUS_LABELS = {
 
 export default function ProfilePage() {
   const { data: session, isPending } = useSession();
-  const [topics, setTopics] = useState(null);
+  const [topics, setTopics] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const isAdmin = session?.user?.role === 'admin';
-  const isTopicsLoading = !!session && !isAdmin && topics === null;
 
   useEffect(() => {
     if (!session || isAdmin) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setLoading(false);
       return;
     }
 
-    let isMounted = true;
-
     getMyTopicRequests()
-      .then(data => {
-        if (isMounted) {
-          setTopics(data);
-        }
-      })
-      .catch(() => {
-        if (isMounted) {
-          setTopics([]);
-        }
-      });
-
-    return () => {
-      isMounted = false;
-    };
+      .then(setTopics)
+      .finally(() => setLoading(false));
   }, [session, isAdmin]);
 
   if (isPending) return null;

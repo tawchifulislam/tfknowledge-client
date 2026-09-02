@@ -21,13 +21,13 @@ export default function SignInButtons() {
     <div className="flex flex-col gap-3">
       <button
         onClick={handleGoogleSignIn}
-        className="px-4 py-2 border rounded-lg hover:bg-gray-50"
+        className="rounded-full border border-border px-4 py-2.5 text-sm font-medium text-text hover:bg-gray-50"
       >
         Continue with Google
       </button>
       <button
         onClick={handleFacebookSignIn}
-        className="px-4 py-2 border rounded-lg hover:bg-gray-50"
+        className="rounded-full border border-border px-4 py-2.5 text-sm font-medium text-text hover:bg-gray-50"
       >
         Continue with Facebook
       </button>
