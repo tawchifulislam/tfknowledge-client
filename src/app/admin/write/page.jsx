@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import Image from 'next/image';
+import { toast } from 'sonner';
 import { useSession } from '@/lib/auth-client';
 import { uploadImage } from '@/lib/uploadImage';
 import { createPost } from '@/lib/api';
@@ -21,7 +21,6 @@ export default function WritePage() {
   const [coverImage, setCoverImage] = useState(null);
   const [uploading, setUploading] = useState(false);
   const [submitting, setSubmitting] = useState(false);
-  const [error, setError] = useState('');
 
   if (isPending) return null;
 
@@ -40,12 +39,11 @@ export default function WritePage() {
     if (!file) return;
 
     setUploading(true);
-    setError('');
     try {
       const url = await uploadImage(file);
       setCoverImage(url);
     } catch (err) {
-      setError('Failed to upload image. Please try again.');
+      toast.error('Failed to upload image. Please try again.');
     } finally {
       setUploading(false);
     }
@@ -53,12 +51,11 @@ export default function WritePage() {
 
   const handleSubmit = async status => {
     if (!title.trim() || !excerpt.trim() || !content.trim()) {
-      setError('Title, excerpt, and content are required.');
+      toast.error('Title, excerpt, and content are required.');
       return;
     }
 
     setSubmitting(true);
-    setError('');
 
     try {
       const post = await createPost({
@@ -73,25 +70,22 @@ export default function WritePage() {
         status,
       });
 
+      toast.success(
+        status === 'published' ? 'Post published!' : 'Draft saved.',
+      );
       router.push(`/posts/${post.slug}`);
     } catch (err) {
-      setError(err.message);
+      toast.error(err.message);
     } finally {
       setSubmitting(false);
     }
   };
 
   return (
-    <Container className="max-w-3xl py-10">
-      <h1 className="font-serif text-2xl font-semibold text-text">
+    <Container className="max-w-3xl py-8 sm:py-10">
+      <h1 className="font-serif text-xl font-semibold text-text sm:text-2xl">
         Write a new post
       </h1>
-
-      {error && (
-        <p className="mt-4 rounded-md bg-red-50 px-3 py-2 text-sm text-destructive">
-          {error}
-        </p>
-      )}
 
       <div className="mt-6 space-y-5">
         <input
@@ -99,7 +93,7 @@ export default function WritePage() {
           placeholder="Post title"
           value={title}
           onChange={e => setTitle(e.target.value)}
-          className="w-full border-b border-border pb-2 font-serif text-2xl font-semibold text-text placeholder:text-text-muted/50 focus:outline-none"
+          className="w-full border-b border-border pb-2 font-serif text-xl font-semibold text-text placeholder:text-text-muted/50 focus:outline-none sm:text-2xl"
         />
 
         <textarea
@@ -122,12 +116,10 @@ export default function WritePage() {
         <div>
           {coverImage ? (
             <div className="relative">
-              <Image
+              <img
                 src={coverImage}
                 alt="Cover"
-                width={800}
-                height={224}
-                className="h-56 w-full rounded-lg object-cover"
+                className="h-44 w-full rounded-lg object-cover sm:h-56"
               />
               <button
                 onClick={() => setCoverImage(null)}
@@ -137,7 +129,7 @@ export default function WritePage() {
               </button>
             </div>
           ) : (
-            <label className="flex h-32 cursor-pointer flex-col items-center justify-center gap-2 rounded-lg border border-dashed border-border text-text-muted hover:bg-gray-50">
+            <label className="flex h-28 cursor-pointer flex-col items-center justify-center gap-2 rounded-lg border border-dashed border-border text-text-muted hover:bg-gray-50 sm:h-32">
               <ImagePlus size={20} />
               <span className="text-sm">
                 {uploading ? 'Uploading...' : 'Add a cover image'}
@@ -155,7 +147,7 @@ export default function WritePage() {
 
         <Editor content={content} onChange={setContent} />
 
-        <div className="flex justify-end gap-3 pt-4">
+        <div className="flex flex-col gap-3 pt-4 sm:flex-row sm:justify-end">
           <button
             onClick={() => handleSubmit('draft')}
             disabled={submitting}

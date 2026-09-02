@@ -49,31 +49,33 @@ export default function ProfilePage() {
   }
 
   return (
-    <Container className="max-w-2xl py-12">
+    <Container className="max-w-2xl py-8 sm:py-12">
       <div className="flex items-center gap-4">
         {session.user.image ? (
           <img
             src={session.user.image}
             alt={session.user.name}
             referrerPolicy="no-referrer"
-            className="h-16 w-16 shrink-0 rounded-full object-cover"
+            className="h-14 w-14 shrink-0 rounded-full object-cover sm:h-16 sm:w-16"
           />
         ) : (
-          <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full bg-gray-100 text-lg font-medium text-text-muted">
+          <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-gray-100 text-lg font-medium text-text-muted sm:h-16 sm:w-16">
             {session.user.name?.charAt(0).toUpperCase() || <User size={24} />}
           </div>
         )}
-        <div>
-          <h1 className="font-serif text-2xl font-semibold text-text">
+        <div className="min-w-0">
+          <h1 className="truncate font-serif text-xl font-semibold text-text sm:text-2xl">
             {session.user.name}
           </h1>
-          <p className="text-sm text-text-muted">{session.user.email}</p>
+          <p className="truncate text-sm text-text-muted">
+            {session.user.email}
+          </p>
         </div>
       </div>
 
       {!isAdmin && (
-        <div className="mt-10">
-          <h2 className="font-serif text-lg font-semibold text-text">
+        <div className="mt-8 sm:mt-10">
+          <h2 className="font-serif text-base font-semibold text-text sm:text-lg">
             Your topic requests
           </h2>
 
@@ -100,9 +102,11 @@ export default function ProfilePage() {
                     className="rounded-xl border border-border bg-white p-4"
                   >
                     <div className="flex items-start justify-between gap-3">
-                      <h3 className="font-medium text-text">{topic.title}</h3>
+                      <h3 className="wrap-break-word font-medium text-text">
+                        {topic.title}
+                      </h3>
                       <span
-                        className={`whitespace-nowrap rounded-full px-2.5 py-1 text-xs font-medium ${
+                        className={`shrink-0 whitespace-nowrap rounded-full px-2.5 py-1 text-xs font-medium ${
                           STATUS_STYLES[topic.status]
                         }`}
                       >

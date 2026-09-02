@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { toast } from 'sonner';
 import { useSession } from '@/lib/auth-client';
 import { getAllTopicRequests, createTopicRequest } from '@/lib/api';
 import Container from '@/components/layout/Container';
@@ -29,8 +30,9 @@ export default function RequestsPage() {
       setTopics(prev => [created, ...prev]);
       setTitle('');
       setReason('');
+      toast.success('Topic request submitted.');
     } catch (err) {
-      alert(err.message);
+      toast.error(err.message);
     } finally {
       setSubmitting(false);
     }
@@ -41,19 +43,19 @@ export default function RequestsPage() {
   };
 
   return (
-    <Container className="max-w-2xl py-12">
+    <Container className="max-w-2xl py-8 sm:py-12">
       <div className="text-center">
-        <h1 className="font-serif text-3xl font-semibold text-text sm:text-4xl">
+        <h1 className="font-serif text-2xl font-semibold text-text sm:text-3xl md:text-4xl">
           Request a topic
         </h1>
-        <p className="mx-auto mt-3 max-w-md text-text-muted">
+        <p className="mx-auto mt-3 max-w-md text-sm text-text-muted sm:text-base">
           Ask for what you want to read next, and vote on ideas from other
           readers.
         </p>
       </div>
 
       {session ? (
-        <div className="mt-10 space-y-3 rounded-xl border border-border bg-white p-5 shadow-sm">
+        <div className="mt-8 space-y-3 rounded-xl border border-border bg-white p-4 shadow-sm sm:mt-10 sm:p-5">
           <input
             type="text"
             placeholder="What should we write about?"
@@ -79,14 +81,14 @@ export default function RequestsPage() {
           </div>
         </div>
       ) : (
-        <div className="mt-10 rounded-xl border border-dashed border-border p-6 text-center text-sm text-text-muted">
+        <div className="mt-8 rounded-xl border border-dashed border-border p-6 text-center text-sm text-text-muted sm:mt-10">
           Sign in to request a topic.
         </div>
       )}
 
-      <div className="mt-12">
+      <div className="mt-10 sm:mt-12">
         <div className="flex items-center justify-between">
-          <h2 className="font-serif text-lg font-semibold text-text">
+          <h2 className="font-serif text-base font-semibold text-text sm:text-lg">
             {loading
               ? 'Loading requests...'
               : `${topics.length} ${
