@@ -1,7 +1,6 @@
 import { notFound } from 'next/navigation';
 import Container from '@/components/layout/Container';
 import { getPostBySlug } from '@/lib/api';
-import { Image } from 'next/image';
 import ReactionBar from '@/components/posts/ReactionBar';
 import CommentSection from '@/components/posts/CommentSection';
 
@@ -14,12 +13,12 @@ export default async function SinglePostPage({ params }) {
   }
 
   return (
-    <Container className="max-w-3xl py-12">
+    <Container className="max-w-3xl py-8 sm:py-12">
       {post.coverImage && (
         <img
           src={post.coverImage}
           alt={post.title}
-          className="mb-8 h-72 w-full rounded-xl object-cover"
+          className="mb-6 h-48 w-full rounded-xl object-cover sm:mb-8 sm:h-72"
         />
       )}
 
@@ -31,7 +30,7 @@ export default async function SinglePostPage({ params }) {
         })}
       </span>
 
-      <h1 className="mt-2 font-serif text-3xl font-semibold text-text sm:text-4xl">
+      <h1 className="mt-2 font-serif text-2xl font-semibold leading-tight text-text sm:text-3xl md:text-4xl">
         {post.title}
       </h1>
 
@@ -49,9 +48,10 @@ export default async function SinglePostPage({ params }) {
       )}
 
       <div
-        className="prose prose-neutral mt-8 max-w-none font-sans text-base leading-relaxed text-text"
+        className="prose prose-neutral mt-8 max-w-none font-sans text-base leading-relaxed text-text prose-headings:font-serif prose-img:rounded-lg"
         dangerouslySetInnerHTML={{ __html: post.content }}
       />
+
       <ReactionBar postId={post._id} />
 
       <CommentSection postId={post._id} />
