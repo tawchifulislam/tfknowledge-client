@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { Heart, MessageCircle, Share2 } from 'lucide-react';
+import { toast } from 'sonner';
 import { useSession } from '@/lib/auth-client';
 import { toggleReaction, getPostReactions, getPostComments } from '@/lib/api';
 
@@ -26,12 +27,12 @@ export default function ReactionBar({ postId }) {
 
   const handleShare = () => {
     navigator.clipboard.writeText(window.location.href);
-    alert('Link copied to clipboard!');
+    toast.success('Link copied to clipboard!');
   };
 
   const handleLike = async () => {
     if (!session) {
-      alert('Please sign in to like this post.');
+      toast.error('Please sign in to like this post.');
       return;
     }
 
@@ -53,6 +54,7 @@ export default function ReactionBar({ postId }) {
         ...prev,
         like: (prev.like || 0) + (wasLiked ? 1 : -1),
       }));
+      toast.error('Something went wrong. Please try again.');
     } finally {
       setLoading(false);
     }

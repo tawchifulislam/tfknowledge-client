@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { Trash2 } from 'lucide-react';
+import { toast } from 'sonner';
 import { useSession } from '@/lib/auth-client';
 import { deleteComment } from '@/lib/api';
 
@@ -21,8 +22,9 @@ export default function CommentItem({ comment, replies, onReply, onDeleted }) {
     try {
       await deleteComment(id);
       onDeleted(id);
+      toast.success('Comment deleted.');
     } catch (err) {
-      alert(err.message);
+      toast.error(err.message || 'Failed to delete comment.');
     } finally {
       setDeleting(false);
     }
@@ -72,7 +74,7 @@ export default function CommentItem({ comment, replies, onReply, onDeleted }) {
       )}
 
       {showReplyBox && (
-        <div className="mt-2 flex gap-2">
+        <div className="mt-2 flex flex-col gap-2 sm:flex-row">
           <input
             type="text"
             value={replyText}
@@ -90,7 +92,7 @@ export default function CommentItem({ comment, replies, onReply, onDeleted }) {
       )}
 
       {replies.length > 0 && (
-        <div className="ml-6 mt-3 space-y-3 border-l border-border pl-4">
+        <div className="ml-4 mt-3 space-y-3 border-l border-border pl-3 sm:ml-6 sm:pl-4">
           {replies.map(reply => {
             const canDeleteReply =
               session?.user?.id === reply.authorId ||

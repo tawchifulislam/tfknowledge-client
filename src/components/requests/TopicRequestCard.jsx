@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { ChevronUp, ChevronDown, Trash2 } from 'lucide-react';
+import { toast } from 'sonner';
 import { useSession } from '@/lib/auth-client';
 import {
   castVote,
@@ -43,7 +44,7 @@ export default function TopicRequestCard({ topic, onDeleted }) {
 
   const handleVote = async value => {
     if (!session) {
-      alert('Please sign in to vote.');
+      toast.error('Please sign in to vote.');
       return;
     }
 
@@ -62,7 +63,7 @@ export default function TopicRequestCard({ topic, onDeleted }) {
     } catch (err) {
       setUserVote(prevVote);
       setScore(prevScore);
-      alert('Failed to vote.');
+      toast.error('Failed to vote.');
     } finally {
       setVoting(false);
     }
@@ -74,8 +75,9 @@ export default function TopicRequestCard({ topic, onDeleted }) {
     try {
       await deleteTopicRequest(topic._id);
       onDeleted(topic._id);
+      toast.success('Request deleted.');
     } catch (err) {
-      alert(err.message);
+      toast.error(err.message);
     } finally {
       setDeleting(false);
     }
@@ -90,9 +92,10 @@ export default function TopicRequestCard({ topic, onDeleted }) {
 
     try {
       await updateTopicStatus(topic._id, newStatus);
+      toast.success('Status updated.');
     } catch (err) {
       setStatus(prevStatus);
-      alert('Failed to update status.');
+      toast.error('Failed to update status.');
     }
   };
 
@@ -103,7 +106,7 @@ export default function TopicRequestCard({ topic, onDeleted }) {
   const timeAgo = getTimeAgo(topic.createdAt);
 
   return (
-    <div className="flex gap-4 rounded-xl border border-border bg-white p-5">
+    <div className="flex gap-3 rounded-xl border border-border bg-white p-4 sm:gap-4 sm:p-5">
       <div className="flex flex-col items-center gap-1">
         <button
           onClick={() => handleVote(1)}
@@ -128,23 +131,23 @@ export default function TopicRequestCard({ topic, onDeleted }) {
         </button>
       </div>
 
-      <div className="flex-1">
-        <div className="flex items-start justify-between gap-3">
-          <h3 className="font-serif text-lg font-semibold text-text">
+      <div className="min-w-0 flex-1">
+        <div className="flex items-start justify-between gap-2 sm:gap-3">
+          <h3 className="wrap-break-word font-serif text-base font-semibold text-text sm:text-lg">
             {topic.title}
           </h3>
-          <div className="relative flex shrink-0 items-center gap-3">
+          <div className="relative flex shrink-0 items-center gap-2 sm:gap-3">
             {isAdmin ? (
               <button
                 onClick={() => setStatusMenuOpen(prev => !prev)}
-                className={`whitespace-nowrap rounded-full px-2.5 py-1 text-xs font-medium hover:opacity-80 ${STATUS_STYLES[status]}`}
+                className={`whitespace-nowrap rounded-full px-2 py-1 text-xs font-medium hover:opacity-80 sm:px-2.5 ${STATUS_STYLES[status]}`}
               >
                 {currentStatusLabel}
               </button>
             ) : (
               status !== 'pending' && (
                 <span
-                  className={`whitespace-nowrap rounded-full px-2.5 py-1 text-xs font-medium ${STATUS_STYLES[status]}`}
+                  className={`whitespace-nowrap rounded-full px-2 py-1 text-xs font-medium sm:px-2.5 ${STATUS_STYLES[status]}`}
                 >
                   {currentStatusLabel}
                 </span>
@@ -181,7 +184,7 @@ export default function TopicRequestCard({ topic, onDeleted }) {
           </div>
         </div>
         <p className="mt-1 text-sm text-text-muted">{topic.reason}</p>
-        <div className="mt-2 flex items-center gap-2 text-xs text-text-muted">
+        <div className="mt-2 flex flex-wrap items-center gap-2 text-xs text-text-muted">
           <span>{topic.requestedByName}</span>
           <span>·</span>
           <span>{timeAgo}</span>

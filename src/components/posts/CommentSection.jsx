@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { toast } from 'sonner';
 import { useSession } from '@/lib/auth-client';
 import { getPostComments, createComment } from '@/lib/api';
 import CommentItem from './CommentItem';
@@ -26,8 +27,9 @@ export default function CommentSection({ postId }) {
       const created = await createComment(postId, newComment, null);
       setComments(prev => [...prev, created]);
       setNewComment('');
+      toast.success('Comment posted.');
     } catch (err) {
-      alert(err.message || 'Failed to post comment.');
+      toast.error(err.message || 'Failed to post comment.');
     } finally {
       setPosting(false);
     }
@@ -53,7 +55,7 @@ export default function CommentSection({ postId }) {
       </h2>
 
       {session ? (
-        <div className="mt-4 flex gap-2">
+        <div className="mt-4 flex flex-col gap-2 sm:flex-row">
           <input
             type="text"
             value={newComment}

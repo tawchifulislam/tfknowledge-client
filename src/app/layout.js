@@ -1,4 +1,5 @@
 import { Fraunces, Inter } from 'next/font/google';
+import { Toaster } from 'sonner';
 import Navbar from '@/components/layout/Navbar';
 import './globals.css';
 
@@ -25,6 +26,17 @@ export default function RootLayout({ children }) {
       <body className="font-sans">
         <Navbar />
         {children}
+        <Toaster
+          position="bottom-center"
+          toastOptions={{
+            style: {
+              background: '#1C1917',
+              color: '#FAFAF9',
+              border: 'none',
+              fontSize: '14px',
+            },
+          }}
+        />
       </body>
     </html>
   );
