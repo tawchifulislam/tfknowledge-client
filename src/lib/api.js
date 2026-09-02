@@ -109,3 +109,93 @@ export const deleteComment = async commentId => {
 
   return res.json();
 };
+
+export const getAllTopicRequests = async () => {
+  const res = await fetch(`${SERVER_URL}/api/topic-requests`, {
+    cache: 'no-store',
+  });
+
+  if (!res.ok) {
+    throw new Error('Failed to fetch topic requests');
+  }
+
+  return res.json();
+};
+
+export const createTopicRequest = async (title, reason) => {
+  const res = await fetch(`${SERVER_URL}/api/topic-requests`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    credentials: 'include',
+    body: JSON.stringify({ title, reason }),
+  });
+
+  if (!res.ok) {
+    const error = await res.json();
+    throw new Error(error.message || 'Failed to submit request');
+  }
+
+  return res.json();
+};
+
+export const deleteTopicRequest = async topicRequestId => {
+  const res = await fetch(
+    `${SERVER_URL}/api/topic-requests/${topicRequestId}`,
+    {
+      method: 'DELETE',
+      credentials: 'include',
+    },
+  );
+
+  if (!res.ok) {
+    const error = await res.json();
+    throw new Error(error.message || 'Failed to delete request');
+  }
+
+  return res.json();
+};
+
+export const castVote = async (topicRequestId, value) => {
+  const res = await fetch(`${SERVER_URL}/api/votes`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    credentials: 'include',
+    body: JSON.stringify({ topicRequestId, value }),
+  });
+
+  if (!res.ok) {
+    throw new Error('Failed to vote');
+  }
+
+  return res.json();
+};
+
+export const getUserVote = async topicRequestId => {
+  const res = await fetch(`${SERVER_URL}/api/votes/${topicRequestId}`, {
+    credentials: 'include',
+    cache: 'no-store',
+  });
+
+  if (!res.ok) {
+    return { value: 0 };
+  }
+
+  return res.json();
+};
+export const updateTopicStatus = async (topicRequestId, status) => {
+  const res = await fetch(
+    `${SERVER_URL}/api/topic-requests/${topicRequestId}/status`,
+    {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
+      body: JSON.stringify({ status }),
+    },
+  );
+
+  if (!res.ok) {
+    throw new Error('Failed to update status');
+  }
+
+  return res.json();
+};
