@@ -16,6 +16,61 @@ export const createPost = async postData => {
   return res.json();
 };
 
+export const getAllPostsForAdmin = async () => {
+  const res = await fetch(`${SERVER_URL}/api/posts/admin/all`, {
+    credentials: 'include',
+    cache: 'no-store',
+  });
+
+  if (!res.ok) {
+    throw new Error('Failed to fetch posts');
+  }
+
+  return res.json();
+};
+
+export const getPostById = async id => {
+  const res = await fetch(`${SERVER_URL}/api/posts/admin/${id}`, {
+    credentials: 'include',
+    cache: 'no-store',
+  });
+
+  if (!res.ok) {
+    throw new Error('Failed to fetch post');
+  }
+
+  return res.json();
+};
+
+export const updatePost = async (id, postData) => {
+  const res = await fetch(`${SERVER_URL}/api/posts/${id}`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    credentials: 'include',
+    body: JSON.stringify(postData),
+  });
+
+  if (!res.ok) {
+    const error = await res.json();
+    throw new Error(error.message || 'Failed to update post');
+  }
+
+  return res.json();
+};
+
+export const deletePost = async id => {
+  const res = await fetch(`${SERVER_URL}/api/posts/${id}`, {
+    method: 'DELETE',
+    credentials: 'include',
+  });
+
+  if (!res.ok) {
+    throw new Error('Failed to delete post');
+  }
+
+  return res.json();
+};
+
 export const getAllPosts = async () => {
   const res = await fetch(`${SERVER_URL}/api/posts`, {
     cache: 'no-store',

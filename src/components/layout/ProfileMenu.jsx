@@ -1,7 +1,7 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { User, PenLine, LogOut } from 'lucide-react';
+import { User, PenLine, LogOut, FileText } from 'lucide-react';
 import { useSession, signOut } from '@/lib/auth-client';
 import {
   DropdownMenu,
@@ -31,13 +31,22 @@ export default function ProfileMenu() {
         </DropdownMenuItem>
         <DropdownMenuSeparator />
         {isAdmin && (
-          <DropdownMenuItem
-            onClick={() => router.push('/admin/write')}
-            className="flex items-center gap-2 py-1.5 text-sm focus:bg-gray-100 focus:text-text"
-          >
-            <PenLine size={14} />
-            Write
-          </DropdownMenuItem>
+          <>
+            <DropdownMenuItem
+              onClick={() => router.push('/admin/write')}
+              className="flex items-center gap-2 py-1.5 text-sm focus:bg-gray-100 focus:text-text"
+            >
+              <PenLine size={14} />
+              Write
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={() => router.push('/admin/posts')}
+              className="flex items-center gap-2 py-1.5 text-sm focus:bg-gray-100 focus:text-text"
+            >
+              <FileText size={14} />
+              Manage Posts
+            </DropdownMenuItem>
+          </>
         )}
         <DropdownMenuSeparator />
         <DropdownMenuItem
