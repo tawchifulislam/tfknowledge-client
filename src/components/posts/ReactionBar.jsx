@@ -26,6 +26,8 @@ export default function ReactionBar({ postId }) {
   const totalLikes = Object.values(counts).reduce((sum, n) => sum + n, 0);
 
   const handleShare = async () => {
+    if (typeof window === "undefined") return; 
+
     const shareData = {
       title: document.title,
       url: window.location.href,
