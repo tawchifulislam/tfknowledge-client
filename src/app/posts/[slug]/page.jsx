@@ -1,8 +1,36 @@
 import { notFound } from 'next/navigation';
 import Container from '@/components/layout/Container';
 import { getPostBySlug } from '@/lib/api';
-import ReactionBar from '@/components/posts/ReactionBar';
-import CommentSection from '@/components/posts/CommentSection';
+import ReactionBar from '@/components/post/ReactionBar';
+import CommentSection from '@/components/post/CommentSection';
+
+export async function generateMetadata({ params }) {
+  const { slug } = await params;
+  const post = await getPostBySlug(slug);
+
+  if (!post) {
+    return {
+      title: 'Post not found',
+    };
+  }
+
+  return {
+    title: `${post.title} | Thirsty for Knowledge`,
+    description: post.excerpt,
+    openGraph: {
+      title: post.title,
+      description: post.excerpt,
+      images: post.coverImage ? [post.coverImage] : [],
+      type: 'article',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: post.title,
+      description: post.excerpt,
+      images: post.coverImage ? [post.coverImage] : [],
+    },
+  };
+}
 
 export default async function SinglePostPage({ params }) {
   const { slug } = await params;

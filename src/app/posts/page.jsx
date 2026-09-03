@@ -2,6 +2,11 @@ import Link from 'next/link';
 import Container from '@/components/layout/Container';
 import { getAllPosts } from '@/lib/api';
 
+export const metadata = {
+  title: 'Posts | Thirsty for Knowledge',
+  description: 'Original writing on ideas worth exploring.',
+};
+
 export default async function PostsPage() {
   const posts = await getAllPosts();
 
