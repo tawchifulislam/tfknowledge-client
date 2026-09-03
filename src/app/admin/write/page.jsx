@@ -8,7 +8,7 @@ import { uploadImage } from '@/lib/uploadImage';
 import { createPost } from '@/lib/api';
 import Editor from '@/components/admin/Editor';
 import Container from '@/components/layout/Container';
-import { ImagePlus, X } from 'lucide-react';
+import { ImagePlus, Loader2, X } from 'lucide-react';
 
 export default function WritePage() {
   const router = useRouter();
@@ -158,8 +158,9 @@ export default function WritePage() {
           <button
             onClick={() => handleSubmit('published')}
             disabled={submitting}
-            className="rounded-full bg-text px-5 py-2 text-sm font-medium text-bg hover:bg-accent disabled:opacity-50"
+            className="flex items-center justify-center gap-2 rounded-full bg-text px-5 py-2 text-sm font-medium text-bg hover:bg-accent disabled:opacity-50"
           >
+            {submitting && <Loader2 size={14} className="animate-spin" />}
             {submitting ? 'Publishing...' : 'Publish'}
           </button>
         </div>
