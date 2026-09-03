@@ -1,18 +1,11 @@
-'use client';
+"use client";
 
-import { signIn } from '@/lib/auth-client';
+import { signIn } from "@/lib/auth-client";
 
 export default function SignInButtons() {
   const handleGoogleSignIn = () => {
     signIn.social({
-      provider: 'google',
-      callbackURL: `${window.location.origin}/`,
-    });
-  };
-
-  const handleFacebookSignIn = () => {
-    signIn.social({
-      provider: 'facebook',
+      provider: "google",
       callbackURL: `${window.location.origin}/`,
     });
   };
@@ -24,12 +17,6 @@ export default function SignInButtons() {
         className="rounded-full border border-border px-4 py-2.5 text-sm font-medium text-text hover:bg-gray-50"
       >
         Continue with Google
-      </button>
-      <button
-        onClick={handleFacebookSignIn}
-        className="rounded-full border border-border px-4 py-2.5 text-sm font-medium text-text hover:bg-gray-50"
-      >
-        Continue with Facebook
       </button>
     </div>
   );
