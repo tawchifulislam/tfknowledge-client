@@ -36,7 +36,7 @@ export default function Hero() {
         </div>
       </div>
 
-      <div className="mx-auto h-80 w-full max-w-md sm:h-96 lg:h-104 lg:max-w-lg">
+      <div className="mx-auto -mt-5 flex h-96 w-full max-w-md items-start lg:-mt-43 lg:h-112 lg:max-w-lg">
         <Player
           src={discussionAnimation}
           autoplay
