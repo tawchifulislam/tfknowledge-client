@@ -40,8 +40,27 @@ export default async function SinglePostPage({ params }) {
     notFound();
   }
 
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: post.title,
+    description: post.excerpt,
+    image: post.coverImage || undefined,
+    datePublished: post.publishedAt,
+    dateModified: post.updatedAt,
+    author: {
+      '@type': 'Organization',
+      name: 'Thirsty for Knowledge',
+    },
+  };
+
   return (
     <Container className="max-w-3xl py-8 sm:py-12">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+
       {post.coverImage && (
         <img
           src={post.coverImage}
