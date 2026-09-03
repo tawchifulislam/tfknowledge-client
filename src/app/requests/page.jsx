@@ -6,6 +6,7 @@ import { useSession } from '@/lib/auth-client';
 import { getAllTopicRequests, createTopicRequest } from '@/lib/api';
 import Container from '@/components/layout/Container';
 import TopicRequestCard from '@/components/requests/TopicRequestCard';
+import Skeleton from '@/components/shared/Skeleton';
 
 export default function RequestsPage() {
   const { data: session } = useSession();
@@ -98,7 +99,22 @@ export default function RequestsPage() {
         </div>
 
         <div className="mt-4">
-          {loading ? null : topics.length === 0 ? (
+          {loading ? (
+            <div className="space-y-3">
+              {[1, 2, 3].map(i => (
+                <div
+                  key={i}
+                  className="flex gap-4 rounded-xl border border-border bg-white p-5"
+                >
+                  <Skeleton className="h-16 w-8" />
+                  <div className="flex-1">
+                    <Skeleton className="h-5 w-1/2" />
+                    <Skeleton className="mt-2 h-4 w-full" />
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : topics.length === 0 ? (
             <div className="rounded-xl border border-dashed border-border py-12 text-center">
               <p className="text-text-muted">No topic requests yet.</p>
               <p className="mt-1 text-sm text-text-muted/70">

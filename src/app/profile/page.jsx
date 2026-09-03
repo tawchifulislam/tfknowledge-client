@@ -6,6 +6,7 @@ import { useSession } from '@/lib/auth-client';
 import { getMyTopicRequests } from '@/lib/api';
 import Container from '@/components/layout/Container';
 import { User } from 'lucide-react';
+import Skeleton from '@/components/shared/Skeleton';
 
 const STATUS_STYLES = {
   pending: 'bg-gray-100 text-text-muted',
@@ -81,7 +82,17 @@ export default function ProfilePage() {
 
           <div className="mt-4">
             {loading ? (
-              <p className="text-text-muted">Loading...</p>
+              <div className="space-y-3">
+                {[1, 2].map(i => (
+                  <div
+                    key={i}
+                    className="rounded-xl border border-border bg-white p-4"
+                  >
+                    <Skeleton className="h-4 w-1/3" />
+                    <Skeleton className="mt-2 h-3 w-2/3" />
+                  </div>
+                ))}
+              </div>
             ) : topics.length === 0 ? (
               <div className="rounded-xl border border-dashed border-border py-10 text-center">
                 <p className="text-text-muted">

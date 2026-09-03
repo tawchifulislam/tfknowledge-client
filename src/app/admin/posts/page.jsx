@@ -8,6 +8,7 @@ import { getAllPostsForAdmin, deletePost } from '@/lib/api';
 import Container from '@/components/layout/Container';
 import ConfirmDialog from '@/components/shared/ConfirmDialog';
 import { Pencil, Trash2 } from 'lucide-react';
+import Skeleton from '@/components/shared/Skeleton';
 
 export default function ManagePostsPage() {
   const { data: session, isPending } = useSession();
@@ -62,7 +63,17 @@ export default function ManagePostsPage() {
 
       <div className="mt-8">
         {loading ? (
-          <p className="text-text-muted">Loading...</p>
+          <div className="space-y-3">
+            {[1, 2, 3].map(i => (
+              <div
+                key={i}
+                className="rounded-xl border border-border bg-white p-4"
+              >
+                <Skeleton className="h-4 w-1/2" />
+                <Skeleton className="mt-2 h-3 w-1/4" />
+              </div>
+            ))}
+          </div>
         ) : posts.length === 0 ? (
           <p className="text-text-muted">No posts yet.</p>
         ) : (
