@@ -49,12 +49,13 @@ export default function ReactionBar({ postId }) {
     try {
       await toggleReaction(postId, 'like');
     } catch (err) {
+      console.error('Reaction error:', err);
       setUserReaction(prevReaction);
       setCounts(prev => ({
         ...prev,
         like: (prev.like || 0) + (wasLiked ? 1 : -1),
       }));
-      toast.error('Something went wrong. Please try again.');
+      toast.error(err.message || 'Something went wrong. Please try again.');
     } finally {
       setLoading(false);
     }
