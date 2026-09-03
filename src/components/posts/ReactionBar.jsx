@@ -26,23 +26,24 @@ export default function ReactionBar({ postId }) {
   const totalLikes = Object.values(counts).reduce((sum, n) => sum + n, 0);
 
   const handleShare = async () => {
-    if (typeof window === "undefined") return; 
+    if (typeof window === 'undefined' || typeof navigator === 'undefined')
+      return;
 
     const shareData = {
       title: document.title,
       url: window.location.href,
     };
 
-    if (navigator.share) {
+    if (window.navigator && window.navigator.share) {
       try {
-        await navigator.share(shareData);
+        await window.navigator.share(shareData);
       } catch (err) {
         if (err.name !== 'AbortError') {
           toast.error('Failed to share.');
         }
       }
-    } else {
-      navigator.clipboard.writeText(window.location.href);
+    } else if (window.navigator && window.navigator.clipboard) {
+      window.navigator.clipboard.writeText(window.location.href);
       toast.success('Link copied to clipboard!');
     }
   };
