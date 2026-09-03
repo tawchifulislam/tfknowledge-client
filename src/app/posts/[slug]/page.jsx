@@ -3,6 +3,7 @@ import Container from '@/components/layout/Container';
 import { getPostBySlug } from '@/lib/api';
 import ReactionBar from '@/components/posts/ReactionBar';
 import CommentSection from '@/components/posts/CommentSection';
+import Link from 'next/link';
 
 export async function generateMetadata({ params }) {
   const { slug } = await params;
@@ -67,13 +68,17 @@ export default async function SinglePostPage({ params }) {
         />
       )}
 
-      <span className="text-sm text-text-muted">
-        {new Date(post.publishedAt).toLocaleDateString('en-US', {
-          month: 'long',
-          day: 'numeric',
-          year: 'numeric',
-        })}
-      </span>
+      <div className="flex items-center gap-2 text-sm text-text-muted">
+        <span>
+          {new Date(post.publishedAt).toLocaleDateString('en-US', {
+            month: 'long',
+            day: 'numeric',
+            year: 'numeric',
+          })}
+        </span>
+        <span>·</span>
+        <span>{getReadingTime(post.content)}</span>
+      </div>
 
       <h1 className="mt-2 font-serif text-2xl font-semibold leading-tight text-text sm:text-3xl md:text-4xl">
         {post.title}
@@ -82,12 +87,13 @@ export default async function SinglePostPage({ params }) {
       {post.tags.length > 0 && (
         <div className="mt-4 flex flex-wrap gap-2">
           {post.tags.map(tag => (
-            <span
+            <Link
               key={tag}
-              className="rounded-full bg-gray-100 px-3 py-1 text-xs text-text-muted"
+              href={`/posts?tag=${encodeURIComponent(tag)}`}
+              className="rounded-full bg-gray-100 px-3 py-1 text-xs text-text-muted hover:bg-gray-200 hover:text-text"
             >
               {tag}
-            </span>
+            </Link>
           ))}
         </div>
       )}
