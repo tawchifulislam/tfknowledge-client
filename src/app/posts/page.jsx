@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import Container from '@/components/layout/Container';
 import { getAllPosts } from '@/lib/api';
+import { BookOpen } from 'lucide-react';
 
 export const metadata = {
   title: 'Posts | Thirsty for Knowledge',
@@ -17,7 +18,10 @@ export default async function PostsPage() {
       </h1>
 
       {posts.length === 0 ? (
-        <p className="mt-8 text-text-muted">No posts published yet.</p>
+        <div className="mt-12 flex flex-col items-center gap-3 py-12 text-center">
+          <BookOpen size={32} className="text-text-muted/40" />
+          <p className="text-text-muted">No posts published yet.</p>
+        </div>
       ) : (
         <div className="mt-8 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
           {posts.map(post => (

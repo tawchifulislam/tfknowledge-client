@@ -5,15 +5,19 @@ import { toast } from 'sonner';
 import { useSession } from '@/lib/auth-client';
 import { getPostComments, createComment } from '@/lib/api';
 import CommentItem from './CommentItem';
+import Skeleton from '@/components/shared/Skeleton';
 
 export default function CommentSection({ postId }) {
   const { data: session } = useSession();
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState('');
   const [posting, setPosting] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    getPostComments(postId).then(setComments);
+    getPostComments(postId)
+      .then(setComments)
+      .finally(() => setLoading(false));
   }, [postId]);
 
   const topLevel = comments.filter(c => !c.parentCommentId);
@@ -51,7 +55,9 @@ export default function CommentSection({ postId }) {
   return (
     <div className="mt-10">
       <h2 className="font-serif text-xl font-semibold text-text">
-        Comments ({comments.filter(c => !c.isDeleted).length})
+        {loading
+          ? 'Comments'
+          : `Comments (${comments.filter(c => !c.isDeleted).length})`}
       </h2>
 
       {session ? (
@@ -77,16 +83,29 @@ export default function CommentSection({ postId }) {
         </p>
       )}
 
-      <div className="mt-4 divide-y divide-border">
-        {topLevel.map(comment => (
-          <CommentItem
-            key={comment._id}
-            comment={comment}
-            replies={repliesFor(comment._id)}
-            onReply={handleReply}
-            onDeleted={handleDeleted}
-          />
-        ))}
+      <div className="mt-4">
+        {loading ? (
+          <div className="space-y-4 divide-y divide-border">
+            {[1, 2].map(i => (
+              <div key={i} className="py-4">
+                <Skeleton className="h-4 w-24" />
+                <Skeleton className="mt-2 h-4 w-full" />
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div className="divide-y divide-border">
+            {topLevel.map(comment => (
+              <CommentItem
+                key={comment._id}
+                comment={comment}
+                replies={repliesFor(comment._id)}
+                onReply={handleReply}
+                onDeleted={handleDeleted}
+              />
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );

@@ -7,6 +7,7 @@ import { getAllTopicRequests, createTopicRequest } from '@/lib/api';
 import Container from '@/components/layout/Container';
 import TopicRequestCard from '@/components/requests/TopicRequestCard';
 import Skeleton from '@/components/shared/Skeleton';
+import { Loader2, Lightbulb } from 'lucide-react';
 
 export default function RequestsPage() {
   const { data: session } = useSession();
@@ -75,8 +76,9 @@ export default function RequestsPage() {
             <button
               onClick={handleSubmit}
               disabled={submitting}
-              className="rounded-full bg-text px-5 py-2 text-sm font-medium text-bg hover:bg-accent disabled:opacity-50"
+              className="flex items-center gap-2 rounded-full bg-text px-5 py-2 text-sm font-medium text-bg hover:bg-accent disabled:opacity-50"
             >
+              {submitting && <Loader2 size={14} className="animate-spin" />}
               {submitting ? 'Submitting...' : 'Submit request'}
             </button>
           </div>
@@ -116,6 +118,10 @@ export default function RequestsPage() {
             </div>
           ) : topics.length === 0 ? (
             <div className="rounded-xl border border-dashed border-border py-12 text-center">
+              <Lightbulb
+                size={28}
+                className="mx-auto mb-3 text-text-muted/40"
+              />
               <p className="text-text-muted">No topic requests yet.</p>
               <p className="mt-1 text-sm text-text-muted/70">
                 Be the first to suggest what we should write about.
