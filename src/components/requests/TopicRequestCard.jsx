@@ -10,6 +10,7 @@ import {
   deleteTopicRequest,
   updateTopicStatus,
 } from '@/lib/api';
+import ConfirmDialog from '@/components/shared/ConfirmDialog';
 
 const STATUS_OPTIONS = [
   { value: 'pending', label: 'Pending' },
@@ -31,6 +32,7 @@ export default function TopicRequestCard({ topic, onDeleted }) {
   const [voting, setVoting] = useState(false);
   const [deleting, setDeleting] = useState(false);
   const [statusMenuOpen, setStatusMenuOpen] = useState(false);
+  const [confirmOpen, setConfirmOpen] = useState(false);
 
   useEffect(() => {
     if (session) {
@@ -70,7 +72,6 @@ export default function TopicRequestCard({ topic, onDeleted }) {
   };
 
   const handleDelete = async () => {
-    if (!confirm('Delete this topic request?')) return;
     setDeleting(true);
     try {
       await deleteTopicRequest(topic._id);
@@ -80,6 +81,7 @@ export default function TopicRequestCard({ topic, onDeleted }) {
       toast.error(err.message);
     } finally {
       setDeleting(false);
+      setConfirmOpen(false);
     }
   };
 
@@ -174,7 +176,7 @@ export default function TopicRequestCard({ topic, onDeleted }) {
 
             {canDelete && (
               <button
-                onClick={handleDelete}
+                onClick={() => setConfirmOpen(true)}
                 disabled={deleting}
                 className="text-text-muted hover:text-destructive"
               >
@@ -190,6 +192,14 @@ export default function TopicRequestCard({ topic, onDeleted }) {
           <span>{timeAgo}</span>
         </div>
       </div>
+
+      <ConfirmDialog
+        open={confirmOpen}
+        onOpenChange={setConfirmOpen}
+        title="Delete this request?"
+        description="This topic request and its votes will be permanently removed."
+        onConfirm={handleDelete}
+      />
     </div>
   );
 }

@@ -1,6 +1,7 @@
 import { Fraunces, Inter } from 'next/font/google';
 import { Toaster } from 'sonner';
 import Navbar from '@/components/layout/Navbar';
+import Footer from '@/components/layout/Footer';
 import './globals.css';
 
 const fraunces = Fraunces({
@@ -23,9 +24,10 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en" className={`${fraunces.variable} ${inter.variable}`}>
-      <body className="font-sans">
+      <body className="flex min-h-screen flex-col font-sans">
         <Navbar />
-        {children}
+        <main className="flex-1">{children}</main>
+        <Footer />
         <Toaster
           position="bottom-center"
           toastOptions={{

@@ -5,28 +5,31 @@ import { Trash2 } from 'lucide-react';
 import { toast } from 'sonner';
 import { useSession } from '@/lib/auth-client';
 import { deleteComment } from '@/lib/api';
+import ConfirmDialog from '@/components/shared/ConfirmDialog';
 
 export default function CommentItem({ comment, replies, onReply, onDeleted }) {
   const { data: session } = useSession();
   const [showReplyBox, setShowReplyBox] = useState(false);
   const [replyText, setReplyText] = useState('');
   const [deleting, setDeleting] = useState(false);
+  const [confirmTarget, setConfirmTarget] = useState(null);
 
   const isOwner = session?.user?.id === comment.authorId;
   const isAdmin = session?.user?.role === 'admin';
   const canDelete = isOwner || isAdmin;
 
-  const handleDelete = async id => {
-    if (!confirm('Delete this comment?')) return;
+  const handleDelete = async () => {
+    if (!confirmTarget) return;
     setDeleting(true);
     try {
-      await deleteComment(id);
-      onDeleted(id);
+      await deleteComment(confirmTarget);
+      onDeleted(confirmTarget);
       toast.success('Comment deleted.');
     } catch (err) {
       toast.error(err.message || 'Failed to delete comment.');
     } finally {
       setDeleting(false);
+      setConfirmTarget(null);
     }
   };
 
@@ -55,7 +58,7 @@ export default function CommentItem({ comment, replies, onReply, onDeleted }) {
 
         {!comment.isDeleted && canDelete && (
           <button
-            onClick={() => handleDelete(comment._id)}
+            onClick={() => setConfirmTarget(comment._id)}
             disabled={deleting}
             className="text-text-muted hover:text-destructive"
           >
@@ -115,7 +118,7 @@ export default function CommentItem({ comment, replies, onReply, onDeleted }) {
 
                 {!reply.isDeleted && canDeleteReply && (
                   <button
-                    onClick={() => handleDelete(reply._id)}
+                    onClick={() => setConfirmTarget(reply._id)}
                     className="text-text-muted hover:text-destructive"
                   >
                     <Trash2 size={14} />
@@ -126,6 +129,14 @@ export default function CommentItem({ comment, replies, onReply, onDeleted }) {
           })}
         </div>
       )}
+
+      <ConfirmDialog
+        open={!!confirmTarget}
+        onOpenChange={open => !open && setConfirmTarget(null)}
+        title="Delete comment?"
+        description="This comment will be marked as deleted and can't be recovered."
+        onConfirm={handleDelete}
+      />
     </div>
   );
 }

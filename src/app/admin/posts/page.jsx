@@ -6,12 +6,14 @@ import { toast } from 'sonner';
 import { useSession } from '@/lib/auth-client';
 import { getAllPostsForAdmin, deletePost } from '@/lib/api';
 import Container from '@/components/layout/Container';
+import ConfirmDialog from '@/components/shared/ConfirmDialog';
 import { Pencil, Trash2 } from 'lucide-react';
 
 export default function ManagePostsPage() {
   const { data: session, isPending } = useSession();
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [confirmTarget, setConfirmTarget] = useState(null);
 
   useEffect(() => {
     if (session?.user?.role === 'admin') {
@@ -31,14 +33,16 @@ export default function ManagePostsPage() {
     );
   }
 
-  const handleDelete = async id => {
-    if (!confirm('Delete this post permanently?')) return;
+  const handleDelete = async () => {
+    if (!confirmTarget) return;
     try {
-      await deletePost(id);
-      setPosts(prev => prev.filter(p => p._id !== id));
+      await deletePost(confirmTarget);
+      setPosts(prev => prev.filter(p => p._id !== confirmTarget));
       toast.success('Post deleted.');
     } catch (err) {
       toast.error('Failed to delete post.');
+    } finally {
+      setConfirmTarget(null);
     }
   };
 
@@ -94,7 +98,7 @@ export default function ManagePostsPage() {
                     <Pencil size={16} />
                   </Link>
                   <button
-                    onClick={() => handleDelete(post._id)}
+                    onClick={() => setConfirmTarget(post._id)}
                     className="text-text-muted hover:text-destructive"
                   >
                     <Trash2 size={16} />
@@ -105,6 +109,14 @@ export default function ManagePostsPage() {
           </div>
         )}
       </div>
+
+      <ConfirmDialog
+        open={!!confirmTarget}
+        onOpenChange={open => !open && setConfirmTarget(null)}
+        title="Delete this post?"
+        description="This post will be permanently deleted and can't be recovered."
+        onConfirm={handleDelete}
+      />
     </Container>
   );
 }
