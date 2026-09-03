@@ -1,8 +1,13 @@
-"use client";
+'use client';
 
-import Link from "next/link";
-import { Player } from "@lottiefiles/react-lottie-player";
-import discussionAnimation from "@/assets/animations/tfk_discussion.json";
+import dynamic from 'next/dynamic';
+import Link from 'next/link';
+import discussionAnimation from '@/assets/animations/tfk_discussion.json';
+
+const Player = dynamic(
+  () => import('@lottiefiles/react-lottie-player').then(mod => mod.Player),
+  { ssr: false },
+);
 
 export default function Hero() {
   return (
@@ -36,7 +41,7 @@ export default function Hero() {
           src={discussionAnimation}
           autoplay
           loop
-          style={{ height: "100%", width: "100%" }}
+          style={{ height: '100%', width: '100%' }}
         />
       </div>
     </section>
