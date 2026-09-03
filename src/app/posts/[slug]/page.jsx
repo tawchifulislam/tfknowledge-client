@@ -9,9 +9,7 @@ export async function generateMetadata({ params }) {
   const post = await getPostBySlug(slug);
 
   if (!post) {
-    return {
-      title: 'Post not found',
-    };
+    return { title: 'Post not found' };
   }
 
   return {
@@ -20,14 +18,14 @@ export async function generateMetadata({ params }) {
     openGraph: {
       title: post.title,
       description: post.excerpt,
-      images: post.coverImage ? [post.coverImage] : [],
+      ...(post.coverImage && { images: [post.coverImage] }),
       type: 'article',
     },
     twitter: {
       card: 'summary_large_image',
       title: post.title,
       description: post.excerpt,
-      images: post.coverImage ? [post.coverImage] : [],
+      ...(post.coverImage && { images: [post.coverImage] }),
     },
   };
 }
