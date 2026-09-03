@@ -90,11 +90,11 @@ export default function RequestsPage() {
       <div className="mt-10 sm:mt-12">
         <div className="flex items-center justify-between">
           <h2 className="font-serif text-base font-semibold text-text sm:text-lg">
-            {loading
-              ? 'Loading requests...'
-              : `${topics.length} ${
-                  topics.length === 1 ? 'request' : 'requests'
-                }`}
+            {!loading && (
+              <h2 className="font-serif text-base font-semibold text-text sm:text-lg">
+                {topics.length} {topics.length === 1 ? 'request' : 'requests'}
+              </h2>
+            )}
           </h2>
         </div>
 
