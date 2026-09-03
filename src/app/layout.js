@@ -19,6 +19,9 @@ const inter = Inter({
 export const metadata = {
   title: 'Thirsty for Knowledge',
   description: 'A minimalist blog for curious minds',
+  verification: {
+    google: 'google34ad16eac17c680e',
+  },
 };
 
 export default function RootLayout({ children }) {
