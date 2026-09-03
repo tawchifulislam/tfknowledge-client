@@ -1,8 +1,8 @@
 import { notFound } from 'next/navigation';
 import Container from '@/components/layout/Container';
 import { getPostBySlug } from '@/lib/api';
-import ReactionBar from '@/components/post/ReactionBar';
-import CommentSection from '@/components/post/CommentSection';
+import ReactionBar from '@/components/posts/ReactionBar';
+import CommentSection from '@/components/posts/CommentSection';
 
 export async function generateMetadata({ params }) {
   const { slug } = await params;

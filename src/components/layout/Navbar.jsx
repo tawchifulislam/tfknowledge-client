@@ -1,13 +1,12 @@
 'use client';
 
-import { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Menu, X } from 'lucide-react';
 import { useSession } from '@/lib/auth-client';
 import Logo from './Logo';
 import Container from './Container';
 import ProfileMenu from './ProfileMenu';
+import MobileMenu from './MobileMenu';
 
 const navLinks = [
   { href: '/', label: 'Home' },
@@ -17,7 +16,6 @@ const navLinks = [
 
 export default function Navbar() {
   const { data: session, isPending } = useSession();
-  const [mobileOpen, setMobileOpen] = useState(false);
   const pathname = usePathname();
 
   return (
@@ -45,49 +43,24 @@ export default function Navbar() {
         </nav>
 
         <div className="flex items-center gap-3">
-          {!isPending &&
-            (session ? (
-              <ProfileMenu />
-            ) : (
-              <Link
-                href="/sign-in"
-                className="rounded-full bg-text px-3 py-1.5 text-xs text-bg hover:bg-accent sm:px-4 sm:text-sm"
-              >
-                Sign in
-              </Link>
-            ))}
+          {!isPending && (
+            <div className="hidden sm:block">
+              {session ? (
+                <ProfileMenu />
+              ) : (
+                <Link
+                  href="/sign-in"
+                  className="rounded-full bg-text px-4 py-1.5 text-sm text-bg hover:bg-accent"
+                >
+                  Sign in
+                </Link>
+              )}
+            </div>
+          )}
 
-          <button
-            onClick={() => setMobileOpen(prev => !prev)}
-            className="flex h-8 w-8 items-center justify-center rounded-full hover:bg-gray-50 sm:hidden"
-            aria-label="Toggle menu"
-          >
-            {mobileOpen ? <X size={18} /> : <Menu size={18} />}
-          </button>
+          <MobileMenu />
         </div>
       </Container>
-
-      {mobileOpen && (
-        <nav className="flex flex-col gap-1 border-t border-border px-4 py-3 text-sm sm:hidden">
-          {navLinks.map(link => {
-            const isActive = pathname === link.href;
-            return (
-              <Link
-                key={link.href}
-                href={link.href}
-                onClick={() => setMobileOpen(false)}
-                className={
-                  isActive
-                    ? 'rounded-md bg-gray-100 px-2 py-2 font-medium text-text'
-                    : 'rounded-md px-2 py-2 text-text-muted hover:bg-gray-50 hover:text-text'
-                }
-              >
-                {link.label}
-              </Link>
-            );
-          })}
-        </nav>
-      )}
     </header>
   );
 }

@@ -1,7 +1,7 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { User, PenLine, LogOut, FileText } from 'lucide-react';
+import { User, PenLine, FileText, LogOut } from 'lucide-react';
 import { useSession, signOut } from '@/lib/auth-client';
 import {
   DropdownMenu,
@@ -18,10 +18,10 @@ export default function ProfileMenu() {
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger className="flex h-8 w-8 items-center justify-center rounded-full border border-border hover:bg-gray-50 sm:h-9 sm:w-9">
+      <DropdownMenuTrigger className="flex h-9 w-9 items-center justify-center rounded-full border border-border hover:bg-gray-50">
         <User size={16} className="text-text" />
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" sideOffset={8} className="w-36 p-1">
+      <DropdownMenuContent align="end" sideOffset={8} className="w-40 p-1">
         <DropdownMenuItem
           onClick={() => router.push('/profile')}
           className="flex items-center gap-2 py-1.5 text-sm focus:bg-gray-100 focus:text-text"
@@ -29,7 +29,7 @@ export default function ProfileMenu() {
           <User size={14} />
           Profile
         </DropdownMenuItem>
-        <DropdownMenuSeparator />
+
         {isAdmin && (
           <>
             <DropdownMenuItem
@@ -48,6 +48,7 @@ export default function ProfileMenu() {
             </DropdownMenuItem>
           </>
         )}
+
         <DropdownMenuSeparator />
         <DropdownMenuItem
           onClick={() => signOut()}
