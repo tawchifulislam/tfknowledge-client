@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import Link from 'next/link';
-import { Lottie } from 'lottie-react';
-import discussionAnimation from '@/assets/animations/tfk_discussion.json';
+import Link from "next/link";
+import { Player } from "@lottiefiles/react-lottie-player";
+import discussionAnimation from "@/assets/animations/tfk_discussion.json";
 
 export default function Hero() {
   return (
@@ -31,8 +31,13 @@ export default function Hero() {
         </div>
       </div>
 
-      <div className="mx-auto -mt-10 flex h-96 w-full max-w-md items-start lg:-mt-16 lg:h-112 lg:max-w-lg">
-        <Lottie src={discussionAnimation} autoplay loop />
+      <div className="mx-auto h-80 w-full max-w-md sm:h-96 lg:h-[26rem] lg:max-w-lg">
+        <Player
+          src={discussionAnimation}
+          autoplay
+          loop
+          style={{ height: "100%", width: "100%" }}
+        />
       </div>
     </section>
   );
