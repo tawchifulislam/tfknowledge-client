@@ -1,5 +1,6 @@
 import Container from '@/components/layout/Container';
 import PostsGrid from '@/components/post/PostsGrid';
+import Pagination from '@/components/posts/Pagination';
 import { getAllPosts } from '@/lib/api';
 
 export const metadata = {
@@ -9,7 +10,8 @@ export const metadata = {
 
 export default async function PostsPage({ searchParams }) {
   const params = await searchParams;
-  const posts = await getAllPosts();
+  const page = parseInt(params?.page) || 1;
+  const { posts, totalPages, currentPage } = await getAllPosts(page, 9);
 
   return (
     <Container className="py-8 sm:py-12">
@@ -18,6 +20,8 @@ export default async function PostsPage({ searchParams }) {
       </h1>
 
       <PostsGrid posts={posts} activeTag={params?.tag || null} />
+
+      <Pagination currentPage={currentPage} totalPages={totalPages} />
     </Container>
   );
 }

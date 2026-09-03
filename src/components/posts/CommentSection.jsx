@@ -52,6 +52,14 @@ export default function CommentSection({ postId }) {
     );
   };
 
+  const handleEdited = (commentId, newContent) => {
+    setComments(prev =>
+      prev.map(c =>
+        c._id === commentId ? { ...c, content: newContent, isEdited: true } : c,
+      ),
+    );
+  };
+
   return (
     <div className="mt-10">
       <h2 className="font-serif text-xl font-semibold text-text">
@@ -102,6 +110,7 @@ export default function CommentSection({ postId }) {
                 replies={repliesFor(comment._id)}
                 onReply={handleReply}
                 onDeleted={handleDeleted}
+                onEdited={handleEdited}
               />
             ))}
           </div>

@@ -71,10 +71,11 @@ export const deletePost = async id => {
   return res.json();
 };
 
-export const getAllPosts = async () => {
-  const res = await fetch(`${SERVER_URL}/api/posts`, {
-    cache: 'no-store',
-  });
+export const getAllPosts = async (page = 1, limit = 9) => {
+  const res = await fetch(
+    `${SERVER_URL}/api/posts?page=${page}&limit=${limit}`,
+    { cache: 'no-store' },
+  );
 
   if (!res.ok) {
     throw new Error('Failed to fetch posts');
@@ -262,6 +263,22 @@ export const getMyTopicRequests = async () => {
 
   if (!res.ok) {
     throw new Error('Failed to fetch your requests');
+  }
+
+  return res.json();
+};
+
+export const updateComment = async (commentId, content) => {
+  const res = await fetch(`${SERVER_URL}/api/comments/${commentId}`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    credentials: 'include',
+    body: JSON.stringify({ content }),
+  });
+
+  if (!res.ok) {
+    const error = await res.json();
+    throw new Error(error.message || 'Failed to update comment');
   }
 
   return res.json();

@@ -25,9 +25,24 @@ export default function ReactionBar({ postId }) {
 
   const totalLikes = Object.values(counts).reduce((sum, n) => sum + n, 0);
 
-  const handleShare = () => {
-    navigator.clipboard.writeText(window.location.href);
-    toast.success('Link copied to clipboard!');
+  const handleShare = async () => {
+    const shareData = {
+      title: document.title,
+      url: window.location.href,
+    };
+
+    if (navigator.share) {
+      try {
+        await navigator.share(shareData);
+      } catch (err) {
+        if (err.name !== 'AbortError') {
+          toast.error('Failed to share.');
+        }
+      }
+    } else {
+      navigator.clipboard.writeText(window.location.href);
+      toast.success('Link copied to clipboard!');
+    }
   };
 
   const handleLike = async () => {

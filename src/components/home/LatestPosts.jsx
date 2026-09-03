@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { getAllPosts } from '@/lib/api';
 
 export default async function LatestPosts() {
-  const posts = await getAllPosts();
+  const { posts } = await getAllPosts(1, 3);
   const latestThree = posts.slice(0, 3);
 
   if (latestThree.length === 0) {
