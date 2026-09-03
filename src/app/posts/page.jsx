@@ -1,5 +1,5 @@
 import Container from '@/components/layout/Container';
-import PostsGrid from '@/components/post/PostsGrid';
+import PostsGrid from '@/components/posts/PostsGrid';
 import Pagination from '@/components/posts/Pagination';
 import { getAllPosts } from '@/lib/api';
 
