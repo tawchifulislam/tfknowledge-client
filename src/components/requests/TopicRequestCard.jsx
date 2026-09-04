@@ -108,7 +108,7 @@ export default function TopicRequestCard({ topic, onDeleted }) {
   const timeAgo = getTimeAgo(topic.createdAt);
 
   return (
-    <div className="flex gap-3 rounded-xl border border-border bg-white p-4 sm:gap-4 sm:p-5">
+    <div className="flex gap-3 rounded-xl border border-border bg-white p-4 transition-colors hover:border-text-muted/40 sm:gap-4 sm:p-5">
       <div className="flex flex-col items-center gap-1">
         <button
           onClick={() => handleVote(1)}

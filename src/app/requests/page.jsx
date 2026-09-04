@@ -76,7 +76,7 @@ export default function RequestsPage() {
             <button
               onClick={handleSubmit}
               disabled={submitting}
-              className="flex items-center gap-2 rounded-full bg-text px-5 py-2 text-sm font-medium text-bg hover:bg-accent disabled:opacity-50"
+              className="flex items-center gap-2 rounded-full bg-text px-5 py-2 text-sm font-medium text-bg transition-transform hover:bg-accent active:scale-95 disabled:opacity-50"
             >
               {submitting && <Loader2 size={14} className="animate-spin" />}
               {submitting ? 'Submitting...' : 'Submit request'}

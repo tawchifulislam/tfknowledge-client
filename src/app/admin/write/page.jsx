@@ -151,14 +151,14 @@ export default function WritePage() {
           <button
             onClick={() => handleSubmit('draft')}
             disabled={submitting}
-            className="rounded-full border border-border px-5 py-2 text-sm font-medium text-text hover:bg-gray-50 disabled:opacity-50"
+            className="rounded-full border border-border px-5 py-2 text-sm font-medium text-text transition-transform hover:bg-gray-50 active:scale-95 disabled:opacity-50"
           >
             Save as draft
           </button>
           <button
             onClick={() => handleSubmit('published')}
             disabled={submitting}
-            className="flex items-center justify-center gap-2 rounded-full bg-text px-5 py-2 text-sm font-medium text-bg hover:bg-accent disabled:opacity-50"
+            className="flex items-center justify-center gap-2 rounded-full bg-text px-5 py-2 text-sm font-medium text-bg transition-transform hover:bg-accent active:scale-95 disabled:opacity-50"
           >
             {submitting && <Loader2 size={14} className="animate-spin" />}
             {submitting ? 'Publishing...' : 'Publish'}
