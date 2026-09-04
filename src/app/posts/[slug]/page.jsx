@@ -5,6 +5,7 @@ import { getPostBySlug } from '@/lib/api';
 import { getReadingTime } from '@/lib/readingTime';
 import ReactionBar from '@/components/posts/ReactionBar';
 import CommentSection from '@/components/posts/CommentSection';
+import LangSetter from '@/components/posts/LangSetter';
 
 export async function generateMetadata({ params }) {
   const { slug } = await params;
@@ -17,11 +18,15 @@ export async function generateMetadata({ params }) {
   return {
     title: `${post.title} | Thirsty for Knowledge`,
     description: post.excerpt || '',
+    alternates: {
+      canonical: `https://tfknowledge.vercel.app/posts/${slug}`,
+    },
     openGraph: {
       title: post.title,
       description: post.excerpt || '',
       ...(post.coverImage && { images: [post.coverImage] }),
       type: 'article',
+      locale: post.language === 'en' ? 'en_US' : 'bn_BD',
     },
     twitter: {
       card: 'summary_large_image',
@@ -42,6 +47,7 @@ export default async function SinglePostPage({ params }) {
 
   const tags = post.tags || [];
   const content = post.content || '';
+  const language = post.language || 'bn';
 
   const jsonLd = {
     '@context': 'https://schema.org',
@@ -51,6 +57,7 @@ export default async function SinglePostPage({ params }) {
     image: post.coverImage || undefined,
     datePublished: post.publishedAt,
     dateModified: post.updatedAt,
+    inLanguage: language,
     author: {
       '@type': 'Organization',
       name: 'Thirsty for Knowledge',
@@ -59,6 +66,8 @@ export default async function SinglePostPage({ params }) {
 
   return (
     <Container className="max-w-3xl py-8 sm:py-12">
+      <LangSetter lang={language} />
+
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
