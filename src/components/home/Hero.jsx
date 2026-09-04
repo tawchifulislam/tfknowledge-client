@@ -23,13 +23,13 @@ export default function Hero() {
         <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row lg:justify-start">
           <Link
             href="/posts"
-            className="rounded-full bg-text px-6 py-2.5 text-sm font-medium text-bg hover:bg-accent"
+            className="rounded-full bg-text px-6 py-2.5 text-sm font-medium text-bg transition-transform hover:bg-accent active:scale-95"
           >
             Explore posts
           </Link>
           <Link
             href="/requests"
-            className="rounded-full border border-border px-6 py-2.5 text-sm font-medium text-text hover:bg-gray-50"
+            className="rounded-full border border-border px-6 py-2.5 text-sm font-medium text-text transition-transform hover:bg-gray-50 active:scale-95"
           >
             Request a topic
           </Link>

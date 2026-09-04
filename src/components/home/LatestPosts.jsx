@@ -3,9 +3,8 @@ import { getAllPosts } from '@/lib/api';
 
 export default async function LatestPosts() {
   const { posts } = await getAllPosts(1, 3);
-  const latestThree = posts.slice(0, 3);
 
-  if (latestThree.length === 0) {
+  if (posts.length === 0) {
     return null;
   }
 
@@ -21,22 +20,33 @@ export default async function LatestPosts() {
       </div>
 
       <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-        {latestThree.map(post => (
+        {posts.map(post => (
           <Link
             key={post.slug}
             href={`/posts/${post.slug}`}
-            className="group flex flex-col gap-2"
+            className="group flex flex-col gap-2 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
           >
+            {post.coverImage && (
+              <div className="mb-2 h-36 overflow-hidden rounded-lg sm:h-40">
+                <img
+                  src={post.coverImage}
+                  alt={post.title}
+                  className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                />
+              </div>
+            )}
             <span className="text-xs text-text-muted">
               {new Date(post.publishedAt).toLocaleDateString('en-US', {
                 month: 'short',
                 year: 'numeric',
               })}
             </span>
-            <h3 className="font-serif text-lg font-semibold text-text group-hover:text-accent">
+            <h3 className="w-fit font-serif text-lg font-semibold text-text transition-colors duration-200 group-hover:text-accent">
               {post.title}
             </h3>
-            <p className="text-sm text-text-muted">{post.excerpt}</p>
+            <p className="line-clamp-2 text-sm text-text-muted">
+              {post.excerpt}
+            </p>
           </Link>
         ))}
       </div>

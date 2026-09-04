@@ -116,7 +116,7 @@ export default function PostsGrid({ posts, activeTag }) {
             <Link
               key={post.slug}
               href={`/posts/${post.slug}`}
-              className="group flex flex-col gap-2"
+              className="group flex flex-col gap-2 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
             >
               {post.coverImage && (
                 <div className="mb-2 h-36 overflow-hidden rounded-lg sm:h-40">
@@ -133,7 +133,7 @@ export default function PostsGrid({ posts, activeTag }) {
                   year: 'numeric',
                 })}
               </span>
-              <h3 className="w-fit font-serif text-base font-semibold text-text underline decoration-transparent decoration-2 underline-offset-4 transition-colors duration-200 group-hover:text-accent group-hover:decoration-accent sm:text-lg">
+              <h3 className="w-fit font-serif text-base font-semibold text-text transition-colors duration-200 group-hover:text-accent sm:text-lg">
                 {post.title}
               </h3>
               <p className="line-clamp-2 text-sm text-text-muted">
