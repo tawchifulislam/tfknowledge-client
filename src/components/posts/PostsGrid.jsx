@@ -9,7 +9,7 @@ export default function PostsGrid({ posts, activeTag }) {
 
   const allTags = useMemo(() => {
     const tagSet = new Set();
-    posts.forEach(post => post.tags.forEach(t => tagSet.add(t)));
+    posts.forEach(post => (post.tags || []).forEach(t => tagSet.add(t)));
     return Array.from(tagSet);
   }, [posts]);
 
@@ -17,7 +17,7 @@ export default function PostsGrid({ posts, activeTag }) {
     let result = posts;
 
     if (activeTag) {
-      result = result.filter(post => post.tags.includes(activeTag));
+      result = result.filter(post => (post.tags || []).includes(activeTag));
     }
 
     if (query.trim()) {
@@ -25,7 +25,7 @@ export default function PostsGrid({ posts, activeTag }) {
       result = result.filter(
         post =>
           post.title.toLowerCase().includes(q) ||
-          post.excerpt.toLowerCase().includes(q),
+          (post.excerpt || '').toLowerCase().includes(q),
       );
     }
 

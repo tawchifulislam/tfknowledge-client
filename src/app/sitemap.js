@@ -3,7 +3,7 @@ import { getAllPosts } from '@/lib/api';
 export default async function sitemap() {
   const baseUrl = 'https://tfknowledge.vercel.app';
 
-  const posts = await getAllPosts();
+  const { posts } = await getAllPosts(1, 100);
 
   const postUrls = posts.map(post => ({
     url: `${baseUrl}/posts/${post.slug}`,
