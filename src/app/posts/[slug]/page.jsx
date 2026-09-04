@@ -96,7 +96,7 @@ export default async function SinglePostPage({ params }) {
 
       {tags.length > 0 && (
         <div className="mt-4 flex flex-wrap gap-2">
-          {tags.map(tag => (
+          {tags.slice(0, 5).map(tag => (
             <Link
               key={tag}
               href={`/posts?tag=${encodeURIComponent(tag)}`}
@@ -105,6 +105,11 @@ export default async function SinglePostPage({ params }) {
               {tag}
             </Link>
           ))}
+          {tags.length > 5 && (
+            <span className="rounded-full bg-gray-100 px-3 py-1 text-xs text-text-muted">
+              +{tags.length - 5} more
+            </span>
+          )}
         </div>
       )}
 

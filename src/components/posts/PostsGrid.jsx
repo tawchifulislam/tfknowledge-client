@@ -60,7 +60,7 @@ export default function PostsGrid({ posts, activeTag }) {
           >
             All
           </Link>
-          {allTags.map(tag => (
+          {allTags.slice(0, 8).map(tag => (
             <Link
               key={tag}
               href={`/posts?tag=${encodeURIComponent(tag)}`}
