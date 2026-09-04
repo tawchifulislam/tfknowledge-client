@@ -119,11 +119,13 @@ export default function PostsGrid({ posts, activeTag }) {
               className="group flex flex-col gap-2"
             >
               {post.coverImage && (
-                <img
-                  src={post.coverImage}
-                  alt={post.title}
-                  className="mb-2 h-36 w-full rounded-lg object-cover sm:h-40"
-                />
+                <div className="mb-2 h-36 overflow-hidden rounded-lg sm:h-40">
+                  <img
+                    src={post.coverImage}
+                    alt={post.title}
+                    className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                  />
+                </div>
               )}
               <span className="text-xs text-text-muted">
                 {new Date(post.publishedAt).toLocaleDateString('en-US', {
@@ -131,15 +133,12 @@ export default function PostsGrid({ posts, activeTag }) {
                   year: 'numeric',
                 })}
               </span>
-              <h3 className="font-serif text-base font-semibold text-text group-hover:text-accent sm:text-lg">
+              <h3 className="w-fit font-serif text-base font-semibold text-text underline decoration-transparent decoration-2 underline-offset-4 transition-colors duration-200 group-hover:text-accent group-hover:decoration-accent sm:text-lg">
                 {post.title}
               </h3>
               <p className="line-clamp-2 text-sm text-text-muted">
                 {post.excerpt}
               </p>
-              <span className="text-xs font-medium text-accent opacity-0 transition-opacity group-hover:opacity-100">
-                Read more →
-              </span>
             </Link>
           ))}
         </div>
