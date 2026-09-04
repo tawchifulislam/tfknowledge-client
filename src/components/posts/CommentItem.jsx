@@ -151,7 +151,7 @@ export default function CommentItem({
             value={replyText}
             onChange={e => setReplyText(e.target.value)}
             placeholder="Write a reply..."
-            className="flex-1 rounded-md border border-border px-3 py-1.5 text-sm focus:outline-none"
+            className="flex-1 rounded-md border border-border px-3 py-1.5 text-sm focus:border-accent focus:outline-none"
           />
           <button
             onClick={handleReplySubmit}

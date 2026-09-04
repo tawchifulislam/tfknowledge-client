@@ -75,7 +75,7 @@ export default function CommentSection({ postId }) {
             value={newComment}
             onChange={e => setNewComment(e.target.value)}
             placeholder="Add a comment..."
-            className="flex-1 rounded-md border border-border px-3 py-2 text-sm focus:outline-none"
+            className="flex-1 rounded-md border border-border px-3 py-2 text-sm focus:border-accent focus:outline-none"
           />
           <button
             onClick={handleSubmit}

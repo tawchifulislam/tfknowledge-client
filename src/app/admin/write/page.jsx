@@ -93,7 +93,7 @@ export default function WritePage() {
           placeholder="Post title"
           value={title}
           onChange={e => setTitle(e.target.value)}
-          className="w-full border-b border-border pb-2 font-serif text-xl font-semibold text-text placeholder:text-text-muted/50 focus:outline-none sm:text-2xl"
+          className="w-full border-b border-border pb-2 font-serif text-xl font-semibold text-text placeholder:text-text-muted/50 focus:border-accent focus:outline-none sm:text-2xl"
         />
 
         <textarea
@@ -102,7 +102,7 @@ export default function WritePage() {
           maxLength={200}
           onChange={e => setExcerpt(e.target.value)}
           rows={2}
-          className="w-full resize-none rounded-md border border-border p-3 text-sm text-text placeholder:text-text-muted/60 focus:outline-none"
+          className="w-full resize-none rounded-md border border-border p-3 text-sm text-text placeholder:text-text-muted/60 focus:border-accent focus:outline-none"
         />
 
         <input
@@ -110,7 +110,7 @@ export default function WritePage() {
           placeholder="Tags (comma separated)"
           value={tags}
           onChange={e => setTags(e.target.value)}
-          className="w-full rounded-md border border-border p-3 text-sm text-text placeholder:text-text-muted/60 focus:outline-none"
+          className="w-full rounded-md border border-border p-3 text-sm text-text placeholder:text-text-muted/60 focus:border-accent focus:outline-none"
         />
 
         <div>
