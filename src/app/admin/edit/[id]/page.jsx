@@ -8,7 +8,7 @@ import { uploadImage } from '@/lib/uploadImage';
 import { getPostById, updatePost } from '@/lib/api';
 import Editor from '@/components/admin/Editor';
 import Container from '@/components/layout/Container';
-import { ImagePlus, Loader2, X } from 'lucide-react';
+import { ImagePlus, X, Loader2 } from 'lucide-react';
 
 export default function EditPostPage() {
   const router = useRouter();
@@ -20,6 +20,7 @@ export default function EditPostPage() {
   const [tags, setTags] = useState('');
   const [content, setContent] = useState('');
   const [coverImage, setCoverImage] = useState(null);
+  const [language, setLanguage] = useState('bn');
   const [loading, setLoading] = useState(true);
   const [uploading, setUploading] = useState(false);
   const [submitting, setSubmitting] = useState(false);
@@ -33,6 +34,7 @@ export default function EditPostPage() {
           setTags(post.tags.join(', '));
           setContent(post.content);
           setCoverImage(post.coverImage);
+          setLanguage(post.language || 'bn');
         })
         .catch(() => toast.error('Failed to load post.'))
         .finally(() => setLoading(false));
@@ -80,6 +82,7 @@ export default function EditPostPage() {
         excerpt,
         content,
         coverImage,
+        language,
         tags: tags
           .split(',')
           .map(tag => tag.trim())
@@ -108,7 +111,7 @@ export default function EditPostPage() {
           placeholder="Post title"
           value={title}
           onChange={e => setTitle(e.target.value)}
-          className="w-full border-b border-border pb-2 font-serif text-xl font-semibold text-text placeholder:text-text-muted/50 focus:outline-none sm:text-2xl"
+          className="w-full border-b border-border pb-2 font-serif text-xl font-semibold text-text placeholder:text-text-muted/50 focus:border-accent focus:outline-none sm:text-2xl"
         />
 
         <textarea
@@ -117,7 +120,7 @@ export default function EditPostPage() {
           maxLength={200}
           onChange={e => setExcerpt(e.target.value)}
           rows={2}
-          className="w-full resize-none rounded-md border border-border p-3 text-sm text-text placeholder:text-text-muted/60 focus:outline-none"
+          className="w-full resize-none rounded-md border border-border p-3 text-sm text-text placeholder:text-text-muted/60 focus:border-accent focus:outline-none"
         />
 
         <input
@@ -125,7 +128,7 @@ export default function EditPostPage() {
           placeholder="Tags (comma separated)"
           value={tags}
           onChange={e => setTags(e.target.value)}
-          className="w-full rounded-md border border-border p-3 text-sm text-text placeholder:text-text-muted/60 focus:outline-none"
+          className="w-full rounded-md border border-border p-3 text-sm text-text placeholder:text-text-muted/60 focus:border-accent focus:outline-none"
         />
 
         <div>
