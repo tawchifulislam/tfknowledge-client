@@ -2,16 +2,19 @@
 
 import { useState, useMemo } from 'react';
 import Link from 'next/link';
-import { Search, X, BookOpen } from 'lucide-react';
+import { Search, X, BookOpen, ChevronDown, ChevronUp } from 'lucide-react';
 
 export default function PostsGrid({ posts, activeTag }) {
   const [query, setQuery] = useState('');
+  const [showAllTags, setShowAllTags] = useState(false);
 
   const allTags = useMemo(() => {
     const tagSet = new Set();
     posts.forEach(post => (post.tags || []).forEach(t => tagSet.add(t)));
     return Array.from(tagSet);
   }, [posts]);
+
+  const visibleTags = showAllTags ? allTags : allTags.slice(0, 8);
 
   const filtered = useMemo(() => {
     let result = posts;
@@ -60,7 +63,7 @@ export default function PostsGrid({ posts, activeTag }) {
           >
             All
           </Link>
-          {allTags.slice(0, 8).map(tag => (
+          {visibleTags.map(tag => (
             <Link
               key={tag}
               href={`/posts?tag=${encodeURIComponent(tag)}`}
@@ -73,6 +76,22 @@ export default function PostsGrid({ posts, activeTag }) {
               {tag}
             </Link>
           ))}
+          {allTags.length > 8 && (
+            <button
+              onClick={() => setShowAllTags(prev => !prev)}
+              className="flex items-center gap-1 rounded-full px-3 py-1 text-xs text-accent hover:bg-gray-100"
+            >
+              {showAllTags ? (
+                <>
+                  Show less <ChevronUp size={12} />
+                </>
+              ) : (
+                <>
+                  +{allTags.length - 8} more <ChevronDown size={12} />
+                </>
+              )}
+            </button>
+          )}
         </div>
       )}
 
@@ -118,6 +137,9 @@ export default function PostsGrid({ posts, activeTag }) {
               <p className="line-clamp-2 text-sm text-text-muted">
                 {post.excerpt}
               </p>
+              <span className="text-xs font-medium text-accent opacity-0 transition-opacity group-hover:opacity-100">
+                Read more →
+              </span>
             </Link>
           ))}
         </div>
