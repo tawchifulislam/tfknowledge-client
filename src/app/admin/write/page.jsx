@@ -8,7 +8,7 @@ import { uploadImage } from '@/lib/uploadImage';
 import { createPost } from '@/lib/api';
 import Editor from '@/components/admin/Editor';
 import Container from '@/components/layout/Container';
-import { ImagePlus, Loader2, X } from 'lucide-react';
+import { ImagePlus, X, Loader2 } from 'lucide-react';
 
 export default function WritePage() {
   const router = useRouter();
@@ -19,6 +19,7 @@ export default function WritePage() {
   const [tags, setTags] = useState('');
   const [content, setContent] = useState('');
   const [coverImage, setCoverImage] = useState(null);
+  const [language, setLanguage] = useState('bn');
   const [uploading, setUploading] = useState(false);
   const [submitting, setSubmitting] = useState(false);
 
@@ -63,6 +64,7 @@ export default function WritePage() {
         excerpt,
         content,
         coverImage,
+        language,
         tags: tags
           .split(',')
           .map(tag => tag.trim())
@@ -88,6 +90,31 @@ export default function WritePage() {
       </h1>
 
       <div className="mt-6 space-y-5">
+        <div className="flex gap-2">
+          <button
+            type="button"
+            onClick={() => setLanguage('bn')}
+            className={`rounded-full px-4 py-1.5 text-sm font-medium ${
+              language === 'bn'
+                ? 'bg-text text-bg'
+                : 'border border-border text-text-muted hover:bg-gray-50'
+            }`}
+          >
+            বাংলা
+          </button>
+          <button
+            type="button"
+            onClick={() => setLanguage('en')}
+            className={`rounded-full px-4 py-1.5 text-sm font-medium ${
+              language === 'en'
+                ? 'bg-text text-bg'
+                : 'border border-border text-text-muted hover:bg-gray-50'
+            }`}
+          >
+            English
+          </button>
+        </div>
+
         <input
           type="text"
           placeholder="Post title"
