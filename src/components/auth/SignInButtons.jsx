@@ -1,12 +1,14 @@
-"use client";
+'use client';
 
-import { signIn } from "@/lib/auth-client";
+import { signIn } from '@/lib/auth-client';
+
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL;
 
 export default function SignInButtons() {
   const handleGoogleSignIn = () => {
     signIn.social({
-      provider: "google",
-      callbackURL: `${window.location.origin}/`,
+      provider: 'google',
+      callbackURL: `${SITE_URL}/`,
     });
   };
 
