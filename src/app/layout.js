@@ -2,6 +2,7 @@ import { Fraunces, Inter } from 'next/font/google';
 import { Toaster } from 'sonner';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
+import WarmUp from '@/components/layout/WarmUp';
 import './globals.css';
 
 const fraunces = Fraunces({
@@ -28,6 +29,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="bn" className={`${fraunces.variable} ${inter.variable}`}>
       <body className="flex min-h-screen flex-col font-sans">
+        <WarmUp />
         <Navbar />
         <main className="flex-1">{children}</main>
         <Footer />

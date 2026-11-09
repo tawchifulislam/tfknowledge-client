@@ -74,7 +74,7 @@ export const deletePost = async id => {
 export const getAllPosts = async (page = 1, limit = 9) => {
   const res = await fetch(
     `${SERVER_URL}/api/posts?page=${page}&limit=${limit}`,
-    { cache: 'no-store' },
+    { next: { revalidate: 60 } },
   );
 
   if (!res.ok) {
@@ -86,11 +86,12 @@ export const getAllPosts = async (page = 1, limit = 9) => {
 
 export const getPostBySlug = async slug => {
   const res = await fetch(`${SERVER_URL}/api/posts/${slug}`, {
-    cache: 'no-store',
+    next: { revalidate: 300 },
   });
 
   if (!res.ok) {
-    return null;
+    if (res.status === 404) return null;
+    throw new Error('Failed to fetch post');
   }
 
   return res.json();
