@@ -1,7 +1,12 @@
 import Link from 'next/link';
+import { connection } from 'next/server';
 import { getAllPosts } from '@/lib/api';
 
 export default async function LatestPosts() {
+  // Render per request, not at build time, so a sleeping API cannot break
+  // a deploy. getAllPosts is still cached for 60s, so this stays fast.
+  await connection();
+
   const { posts } = await getAllPosts(1, 3);
 
   if (posts.length === 0) {
