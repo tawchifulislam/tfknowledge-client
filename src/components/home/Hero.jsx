@@ -1,13 +1,6 @@
-'use client';
-
-import dynamic from 'next/dynamic';
+import Image from 'next/image';
 import Link from 'next/link';
-import discussionAnimation from '@/assets/animations/tfk_discussion.json';
-
-const Player = dynamic(
-  () => import('@lottiefiles/react-lottie-player').then(mod => mod.Player),
-  { ssr: false },
-);
+import bookIllustration from '@/assets/animations/tfk_book.svg';
 
 export default function Hero() {
   return (
@@ -36,12 +29,12 @@ export default function Hero() {
         </div>
       </div>
 
-      <div className="mx-auto -mt-5 flex h-96 w-full max-w-md items-start lg:-mt-43 lg:h-112 lg:max-w-lg">
-        <Player
-          src={discussionAnimation}
-          autoplay
-          loop
-          style={{ height: '100%', width: '100%' }}
+      <div className="mx-auto flex h-72 w-full max-w-md items-center justify-center sm:h-80 lg:h-96 lg:max-w-lg">
+        <Image
+          src={bookIllustration}
+          alt="An open book"
+          priority
+          className="h-full w-full object-contain"
         />
       </div>
     </section>

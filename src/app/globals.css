@@ -3,9 +3,6 @@
 @import 'shadcn/tailwind.css';
 
 @theme {
-  --font-serif: 'Fraunces', serif;
-  --font-sans: 'Inter', sans-serif;
-
   --color-bg: #fafaf9;
   --color-text: #1c1917;
   --color-text-muted: #78716c;
@@ -18,4 +15,11 @@
 body {
   background-color: var(--color-bg);
   color: var(--color-text);
+}
+
+
+/* Latin font first, Bengali font for Bengali characters, then safe fallbacks */
+@theme inline {
+  --font-serif: var(--font-fraunces), var(--font-noto-serif-bn), Georgia, serif;
+  --font-sans: var(--font-inter), var(--font-noto-sans-bn), system-ui, sans-serif;
 }
