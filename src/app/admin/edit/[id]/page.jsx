@@ -62,7 +62,10 @@ export default function EditPostPage() {
       const url = await uploadImage(file);
       setCoverImage(url);
     } catch (err) {
-      toast.error('Failed to upload image. Please try again.');
+      console.error('Image upload failed:', err);
+      toast.error(
+        `Failed to upload image: ${err?.message ?? 'unknown error'}`,
+      );
     } finally {
       setUploading(false);
     }
